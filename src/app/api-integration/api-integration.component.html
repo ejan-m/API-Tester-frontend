@@ -13,7 +13,15 @@
             <h5 class="card-title">API {{ i + 1 }} Response:</h5>
             <p><strong>Status Code: </strong> <span class="badge badge-info">{{ response.status_code }}</span></p>
             <h6>Response Body:</h6>
-            <pre class="bg-light p-3 rounded">{{ response.body | json }}</pre>
+            <div *ngIf="response.content_type.includes('application/json')">
+                <pre class="bg-light p-3 rounded">{{ response.body | json }}</pre>
+            </div>
+            <div *ngIf="response.content_type.includes('application/xml') || response.content_type.includes('text/xml')">
+                <pre class="bg-light p-3 rounded">{{ response.body }}</pre>
+            </div>
+            <div *ngIf="!response.content_type.includes('application/json') && !response.content_type.includes('application/xml') && !response.content_type.includes('text/xml')">
+                <pre class="bg-light p-3 rounded">{{ response.body }}</pre>
+            </div>
         </div>
     </div>
 </div>

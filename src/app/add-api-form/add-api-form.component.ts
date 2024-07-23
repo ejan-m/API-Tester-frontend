@@ -10,12 +10,19 @@ interface ApiHeader {
     value: string;
 }
 
+interface ChainParam {
+    key: string;
+    sourceKey: string;
+}
+
 interface Api {
     method: string;
     url: string;
     params: ApiParam[];
     headers: ApiHeader[];
-    body: string;
+    jsonBody: string;
+    xmlBody: string;
+    chainParams: ChainParam[];
 }
 
 @Component({
@@ -24,7 +31,7 @@ interface Api {
   styleUrls: ['./add-api-form.component.css']
 })
 export class AddApiFormComponent {
-    @Input() api: Api = { method: 'GET', url: '', params: [], headers: [], body: ''};
+    @Input() api: Api = { method: 'GET', url: '', params: [], headers: [], jsonBody: '', xmlBody: '', chainParams: [] };
     @Input() index: number = 0;
     @Output() remove = new EventEmitter<number>();
 
@@ -44,6 +51,14 @@ export class AddApiFormComponent {
 
     removeHeader(index: number) {
         this.api.headers.splice(index, 1);
+    }
+
+    addChainParam() {
+        this.api.chainParams.push({ key: '', sourceKey: '' });
+      }
+      
+    removeChainParam(index: number) {
+        this.api.chainParams.splice(index, 1);
     }
 
     sendRequest() {
