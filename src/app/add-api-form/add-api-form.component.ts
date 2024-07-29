@@ -11,8 +11,8 @@ interface ApiHeader {
 }
 
 interface ChainParam {
-    key: string;
     sourceKey: string;
+    key: string;
 }
 
 interface Api {
