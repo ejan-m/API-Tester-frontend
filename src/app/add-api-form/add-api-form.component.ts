@@ -11,8 +11,8 @@ interface ApiHeader {
 }
 
 interface ChainParam {
-    sourceKey: string;
-    key: string;
+    path: string;
+    sourcePath: string;
 }
 
 interface Api {
@@ -54,7 +54,7 @@ export class AddApiFormComponent {
     }
 
     addChainParam() {
-        this.api.chainParams.push({ key: '', sourceKey: '' });
+        this.api.chainParams.push({ path: '', sourcePath: '' });
       }
       
     removeChainParam(index: number) {

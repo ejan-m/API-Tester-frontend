@@ -72,8 +72,8 @@
             <label>Chain Parameters</label>
             <button class="btn btn-outline-secondary btn-sm mb-2" (click)="addChainParam()">Add</button>
             <div *ngFor="let chainParam of api.chainParams; let i = index" class="input-group mb-2">
-                <input type="text" class="form-control" [(ngModel)]="chainParam.key" placeholder="Key">
-                <input type="text" class="form-control" [(ngModel)]="chainParam.sourceKey" placeholder="Source Key">
+                <input type="text" class="form-control" [(ngModel)]="chainParam.path" placeholder="Path">
+                <input type="text" class="form-control" [(ngModel)]="chainParam.sourcePath" placeholder="Source Path">
                 <div class="input-group-append">
                     <button class="btn btn-outline-danger" (click)="removeChainParam(i)">Remove</button>
                 </div>
