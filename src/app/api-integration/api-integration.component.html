@@ -1,28 +1,28 @@
-<div>
+<div class="container mt-4">
+    <div class="form-group">
+    <label for="scenarioName">Scenario Name</label>
+    <input type="text" id="scenarioName" class="form-control" [(ngModel)]="scenarioName" placeholder="Enter scenario name">
+    </div>
     <div *ngFor="let api of apis; let i = index" class="card mb-3">
-        <div class="card-body">
-            <app-add-api-form [api]="api" [index]="i" (remove)="removeApi($event)"></app-add-api-form>
-        </div>
+    <div class="card-body">
+    <div class="form-group">
+    <label for="apiName{{i}}">API Name</label>
+    <input type="text" id="apiName{{i}}" class="form-control" [(ngModel)]="api.name" placeholder="Enter API name">
     </div>
-    <div class=""text-center mb-4>
-        <button class="btn btn-primary mr-2" (click)="addApi()">Add API</button>
-        <button class="btn btn-success" (click)="runTests()">Run</button>
+    <app-add-api-form [api]="api" [index]="i" (remove)="removeApi($event)"></app-add-api-form>
     </div>
-    <div *ngFor="let response of responses; let i = index" class="card mb-3 shadow-sm">
-        <div class="card-body">
-            <h5 class="card-title">API {{ i + 1 }} Response:</h5>
-            <p><strong>Status Code: </strong> <span class="badge badge-info">{{ response.status_code }}</span></p>
-            <h6>Response Body:</h6>
-            <div *ngIf="response.content_type.includes('application/json')">
-                <pre class="bg-light p-3 rounded">{{ response.body | json }}</pre>
-            </div>
-            <div *ngIf="response.content_type.includes('application/xml') || response.content_type.includes('text/xml')">
-                <pre class="bg-light p-3 rounded">{{ response.body }}</pre>
-            </div>
-            <div *ngIf="!response.content_type.includes('application/json') && !response.content_type.includes('application/xml') && !response.content_type.includes('text/xml')">
-                <pre class="bg-light p-3 rounded">{{ response.body }}</pre>
-            </div>
-        </div>
     </div>
-</div>
-
+    <button class="btn btn-primary" (click)="addApi()">Add API</button>
+    <button class="btn btn-success" (click)="runTests()">Run Tests</button>
+    <div *ngIf="responses.length > 0" class="mt-5">
+    <h3>Scenario: {{ scenarioName }}</h3>
+    <div *ngFor="let response of responses" class="card mb-3">
+    <div class="card-body">
+    <h5 class="card-title">Response for {{ response.name }}</h5>
+    <p><strong>Status Code:</strong> <span class="badge badge-info">{{ response.status_code }}</span></p>
+    <h6>Response Body:</h6>
+    <pre class="bg-light p-3 rounded">{{ response.body | json }}</pre>
+    </div>
+    </div>
+    </div>
+    </div>

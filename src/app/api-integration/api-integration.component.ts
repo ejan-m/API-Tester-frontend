@@ -17,6 +17,7 @@ interface ChainParam {
 }
 
 interface Api {
+    name: string;
     method: string;
     url: string;
     params: ApiParam[];
@@ -30,6 +31,7 @@ interface ApiResponse {
     body: any;
     status_code: number;
     content_type: string;
+    name: string;
 }
 
 @Component({
@@ -38,15 +40,16 @@ interface ApiResponse {
     styleUrls: ['./api-integration.component.css']
 })
 export class ApiIntegrationComponent {
+    scenarioName: string = '';
     apis: Api[] = [
-        { method: 'GET', url: '', params: [], headers: [], jsonBody: '', xmlBody: '', chainParams: [] }
+        { name: '', method: 'GET', url: '', params: [], headers: [], jsonBody: '', xmlBody: '', chainParams: [] }
     ];
     responses: ApiResponse[] = [];
 
     constructor(private apiService: ApiService) { }
 
     addApi() {
-        this.apis.push({ method: 'GET', url: '', params: [], headers: [], jsonBody: '', xmlBody: '', chainParams: [] });
+        this.apis.push({ name: '', method: 'GET', url: '', params: [], headers: [], jsonBody: '', xmlBody: '', chainParams: [] });
     }
 
     removeApi(index: number) {
@@ -71,9 +74,12 @@ export class ApiIntegrationComponent {
                     } else {
                         // For simplicity, let's not handle XML path replacement in this example
                     }
+                    console.log(value);
                     if (value) {
                         if (api.jsonBody) {
+                            console.log(api.jsonBody);
                             api.jsonBody = this.setValueByPath(api.jsonBody, chainParam.path, value);
+                            console.log(api.jsonBody);
                         } else if (api.xmlBody) {
                             // For simplicity, let's not handle XML path replacement in this example
                         }
@@ -85,6 +91,7 @@ export class ApiIntegrationComponent {
                 body: api.method === 'POST' || api.method === 'PUT' ? api.jsonBody : ''
             };
             this.apiService.runTests([formattedApi]).subscribe((data: { responses: ApiResponse[] }) => {
+                data.responses[0].name = api.name;  // Attach the API name to the response
                 results.push(data.responses[0]);
                 executeApi(index + 1);
             });
@@ -95,14 +102,28 @@ export class ApiIntegrationComponent {
     // Function to get value by path in a JSON object
     getValueByPath(obj: any, path: string): any {
         try {
-            return path.split('.').reduce((acc, part) => {
+            const parts = path.split('.');
+            console.log(parts);    // ['Materials[0]', 'Id']
+            let current = obj;
+            for (const part of parts) {
+                console.log(part);
                 const arrayMatch = part.match(/^(\w+)\[(\d+)\]$/);
+                console.log(current);
                 if (arrayMatch) {
-                    return acc[arrayMatch[1]][parseInt(arrayMatch[2], 10)];
+                    console.log('1');
+                    current = current[arrayMatch[1]][parseInt(arrayMatch[2], 10)];
+                } else {
+                    console.log('2');
+                    current = current[part];
+                    console.log(part);
                 }
-                return acc[part];
-            }, obj);
+                if (current === undefined || current === null) {
+                    throw new Error(`Path "${path}" not found in object`);
+                }
+            }
+            return current;
         } catch (e) {
+            console.error(`Error getting value by path "${path}" in object:`, e);
             return null;
         }
     }
@@ -112,28 +133,49 @@ export class ApiIntegrationComponent {
         try {
             const obj = JSON.parse(json);
             const parts = path.split('.');
+            console.log(parts);
             let current = obj;
-            for (let i = 0; i < parts.length - 1; i++) {
-                const arrayMatch = parts[i].match(/^(\w+)\[(\d+)\]$/);
+            for (let i = 0; i < parts.length; i++) {
+                const part = parts[i];
+                console.log(part);
+                const arrayMatch = part.match(/^(.*?)(\[(\d+)\])?$/);
+                console.log(arrayMatch);
                 if (arrayMatch) {
-                    const arrayIndex = parseInt(arrayMatch[2], 10);
-                    if (!current[arrayMatch[1]]) current[arrayMatch[1]] = [];
-                    if (!current[arrayMatch[1]][arrayIndex]) current[arrayMatch[1]][arrayIndex] = {};
-                    current = current[arrayMatch[1]][arrayIndex];
+                    const key = arrayMatch[1];
+                    const index = arrayMatch[3] !== undefined ? parseInt(arrayMatch[3], 10) : null;
+                    if (index !== null) {
+                        if (!current[key] || !Array.isArray(current[key])) {
+                            throw new Error(`Path "${path}" not found: "${key}" is not an array or does not exist`);
+                        }
+                        if (i === parts.length - 1) {
+                            console.log("1");
+                            current[key][index] = value;
+                        } else {
+                            console.log("2");
+                            if (!current[key][index]) {
+                                current[key][index] = {};
+                            }
+                            current = current[key][index];
+                        }
+                    } else {
+                        if (i === parts.length - 1) {
+                            console.log("3");
+                            current[key] = value;
+                        } else {
+                            if (!current[key]) {
+                                console.log("4");
+                                current[key] = {};
+                            }
+                            current = current[key];
+                        }
+                    }
                 } else {
-                    if (!current[parts[i]]) current[parts[i]] = {};
-                    current = current[parts[i]];
+                    throw new Error(`Invalid path "${path}"`);
                 }
-            }
-            const lastPart = parts[parts.length - 1];
-            const lastArrayMatch = lastPart.match(/^(\w+)\[(\d+)\]$/);
-            if (lastArrayMatch) {
-                current[lastArrayMatch[1]][parseInt(lastArrayMatch[2], 10)] = value;
-            } else {
-                current[lastPart] = value;
             }
             return JSON.stringify(obj);
         } catch (e) {
+            console.error(`Error setting value by path "${path}" to "${value}" in JSON:`, e);
             return json;
         }
     }
