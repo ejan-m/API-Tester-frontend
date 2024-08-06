@@ -1,7 +1,16 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { ApiIntegrationComponent } from './api-integration/api-integration.component';
 
-const routes: Routes = [];
+
+const routes: Routes = [
+  // { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
+  // { path: '', redirectTo: '/add-scenario', pathMatch: 'full' },
+  { path: '', component: DashboardComponent },
+  { path: 'add-scenario', component: ApiIntegrationComponent },
+  { path: 'dashboard', component: DashboardComponent }
+];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

@@ -1,0 +1,10 @@
+<div class="container mt-5">
+    <h1 class="text-center mb-4">Dashboard</h1>
+    <button class="btn btn-primary" [routerLink]="['/add-scenario']">Add New Scenario</button>
+    <h2 class="mt-4">Existing Scenarios</h2>
+    <div *ngFor="let scenario of scenarios; let i = index" class="d-flex justify-content-between align-items-center mb-2">
+        <button class="btn btn-primary" (click)="runScenario(i)">Run</button>
+        <span>{{ scenario.steps }}</span>
+        <button class="btn btn-danger" (click)="deleteScenario(i)">Delete</button>
+    </div>
+</div>
