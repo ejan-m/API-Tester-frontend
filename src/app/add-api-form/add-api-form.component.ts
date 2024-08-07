@@ -1,10 +1,5 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 
-interface ApiParam {
-    key: string;
-    value: string;
-}
-
 interface ApiHeader {
     key: string;
     value: string;
@@ -18,7 +13,6 @@ interface ChainParam {
 interface Api {
     method: string;
     url: string;
-    params: ApiParam[];
     headers: ApiHeader[];
     jsonBody: string;
     xmlBody: string;
@@ -31,19 +25,12 @@ interface Api {
   styleUrls: ['./add-api-form.component.css']
 })
 export class AddApiFormComponent {
-    @Input() api: Api = { method: 'GET', url: '', params: [], headers: [], jsonBody: '', xmlBody: '', chainParams: [] };
+    @Input() api: Api = { method: 'GET', url: '', headers: [], jsonBody: '', xmlBody: '', chainParams: [] };
     @Input() index: number = 0;
     @Output() remove = new EventEmitter<number>();
 
     methods = ['GET', 'POST', 'PUT', 'DELETE'];
 
-    addParam() {
-        this.api.params.push({ key: '', value: ''})
-    }
-
-    removeParam(index: number) {
-        this.api.params.splice(index, 1);
-    }
 
     addHeader() {
         this.api.headers.push({ key: '', value: ''})

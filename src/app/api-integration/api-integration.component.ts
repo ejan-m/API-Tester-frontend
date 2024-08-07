@@ -1,11 +1,6 @@
 import { Component } from '@angular/core';
 import { ApiService } from '../api.service';
 
-interface ApiParam {
-    key: string;
-    value: string;
-}
-
 interface ApiHeader {
     key: string;
     value: string;
@@ -20,7 +15,6 @@ interface Api {
     name: string;
     method: string;
     url: string;
-    params: ApiParam[];
     headers: ApiHeader[];
     jsonBody: string;
     xmlBody: string;
@@ -42,14 +36,14 @@ interface ApiResponse {
 export class ApiIntegrationComponent {
     scenarioName: string = '';
     apis: Api[] = [
-        { name: '', method: 'GET', url: '', params: [], headers: [], jsonBody: '', xmlBody: '', chainParams: [] }
+        { name: '', method: 'GET', url: '', headers: [], jsonBody: '', xmlBody: '', chainParams: [] }
     ];
     responses: ApiResponse[] = [];
 
     constructor(private apiService: ApiService) { }
 
     addApi() {
-        this.apis.push({ name: '', method: 'GET', url: '', params: [], headers: [], jsonBody: '', xmlBody: '', chainParams: [] });
+        this.apis.push({ name: '', method: 'GET', url: '', headers: [], jsonBody: '', xmlBody: '', chainParams: [] });
     }
 
     removeApi(index: number) {
@@ -88,7 +82,7 @@ export class ApiIntegrationComponent {
             }
             const formattedApi: any = {
                 ...api,
-                body: api.method === 'POST' || api.method === 'PUT' ? api.jsonBody : ''
+                body: api.method === 'POST' || api.method === 'PUT' ? (api.jsonBody || api.xmlBody) : ''
             };
             this.apiService.runTests([formattedApi]).subscribe((data: { responses: ApiResponse[] }) => {
                 data.responses[0].name = api.name;  // Attach the API name to the response

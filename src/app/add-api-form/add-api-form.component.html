@@ -12,9 +12,9 @@
     </div>
   
     <ul class="nav nav-tabs" id="apiTabs" role="tablist">
-      <li class="nav-item">
+      <!-- <li class="nav-item">
         <a class="nav-link active" id="params-tab" data-toggle="tab" href="#params-{{index}}" role="tab" aria-controls="params" aria-selected="true">Query Params</a>
-      </li>
+      </li> -->
       <li class="nav-item">
         <a class="nav-link" id="headers-tab" data-toggle="tab" href="#headers-{{index}}" role="tab" aria-controls="headers" aria-selected="false">Headers</a>
       </li>
@@ -29,7 +29,7 @@
       </li>
     </ul>
     <div class="tab-content" id="apiTabsContent">
-      <div class="tab-pane fade show active" id="params-{{index}}" role="tabpanel" aria-labelledby="params-tab">
+      <!-- <div class="tab-pane fade show active" id="params-{{index}}" role="tabpanel" aria-labelledby="params-tab">
         <div class="form-group mt-2">
           <label>Query Parameters</label>
           <button class="btn btn-outline-secondary btn-sm mb-2" (click)="addParam()">Add</button>
@@ -41,8 +41,8 @@
             </div>
           </div>
         </div>
-      </div>
-      <div class="tab-pane fade" id="headers-{{index}}" role="tabpanel" aria-labelledby="headers-tab">
+      </div> -->
+      <div class="tab-pane fade show active" id="headers-{{index}}" role="tabpanel" aria-labelledby="headers-tab">
         <div class="form-group mt-2">
           <label>Headers</label>
           <button class="btn btn-outline-secondary btn-sm mb-2" (click)="addHeader()">Add</button>
