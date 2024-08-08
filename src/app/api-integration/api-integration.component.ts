@@ -82,7 +82,7 @@ export class ApiIntegrationComponent {
             }
             const formattedApi: any = {
                 ...api,
-                body: api.method === 'POST' || api.method === 'PUT' ? (api.jsonBody || api.xmlBody) : ''
+                body: api.method === 'POST' || api.method === 'PUT' || api.method === 'MIPC' ? (api.jsonBody || api.xmlBody) : ''
             };
             this.apiService.runTests([formattedApi]).subscribe((data: { responses: ApiResponse[] }) => {
                 data.responses[0].name = api.name;  // Attach the API name to the response

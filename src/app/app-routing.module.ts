@@ -5,8 +5,6 @@ import { ApiIntegrationComponent } from './api-integration/api-integration.compo
 
 
 const routes: Routes = [
-  // { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
-  // { path: '', redirectTo: '/add-scenario', pathMatch: 'full' },
   { path: '', component: DashboardComponent },
   { path: 'add-scenario', component: ApiIntegrationComponent },
   { path: 'dashboard', component: DashboardComponent }

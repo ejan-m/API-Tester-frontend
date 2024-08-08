@@ -29,7 +29,7 @@ export class AddApiFormComponent {
     @Input() index: number = 0;
     @Output() remove = new EventEmitter<number>();
 
-    methods = ['GET', 'POST', 'PUT', 'DELETE'];
+    methods = ['GET', 'POST', 'PUT', 'DELETE', 'MIPC'];
 
 
     addHeader() {
