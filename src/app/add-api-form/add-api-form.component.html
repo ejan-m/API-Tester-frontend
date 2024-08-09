@@ -13,16 +13,16 @@
 
   <ul class="nav nav-tabs" id="apiTabs" role="tablist">
       <li class="nav-item" *ngIf="api.method === 'MIPC'">
-          <a class="nav-link active" id="xml-tab" data-toggle="tab" href="#xml-{{index}}" role="tab" aria-controls="xml" aria-selected="true">XML Body</a>
+          <a class="nav-link active" id="xml-tab" data-toggle="tab" href="#xml-{{index}}" role="tab" aria-controls="xml" aria-selected="false">XML Body</a>
       </li>
       <li class="nav-item" *ngIf="api.method !== 'MIPC'">
-          <a class="nav-link" id="headers-tab" data-toggle="tab" href="#headers-{{index}}" role="tab" aria-controls="headers" aria-selected="true">Headers</a>
+          <a class="nav-link active" id="headers-tab" data-toggle="tab" href="#headers-{{index}}" role="tab" aria-controls="headers" aria-selected="false">Headers</a>
       </li>
       <li class="nav-item" *ngIf="api.method !== 'MIPC'">
           <a class="nav-link" id="json-tab" data-toggle="tab" href="#json-{{index}}" role="tab" aria-controls="json" aria-selected="false">JSON Body</a>
       </li>
-      <li class="nav-item">
-          <a class="nav-link" id="chain-tab" data-toggle="tab" href="#chain-{{index}}" role="tab" aria-controls="chain" aria-selected="false">Chain Params</a>
+      <li class="nav-item"  *ngIf="api.method !== 'MIPC'">
+          <a class="nav-link" id="chain-tab" data-toggle="tab" href="#chain-{{index}}" role="tab" aria-controls="chain" aria-selected="true">Chain Params</a>
       </li>
   </ul>
   <div class="tab-content" id="apiTabsContent">
@@ -51,7 +51,7 @@
               <textarea class="form-control" [(ngModel)]="api.jsonBody" rows="5" placeholder='{"key":"value"}'></textarea>
           </div>
       </div>
-      <div class="tab-pane fade" id="chain-{{index}}" role="tabpanel" aria-labelledby="chain-tab">
+      <div class="tab-pane fade" id="chain-{{index}}" role="tabpanel" aria-labelledby="chain-tab" *ngIf="api.method !== 'MIPC'">
           <div class="form-group mt-2">
               <label>Chain Parameters</label>
               <button class="btn btn-outline-secondary btn-sm mb-2" (click)="addChainParam()">Add</button>
