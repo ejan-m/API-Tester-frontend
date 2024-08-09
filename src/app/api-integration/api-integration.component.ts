@@ -50,6 +50,20 @@ export class ApiIntegrationComponent {
         this.apis.splice(index, 1);
     }
 
+    saveScenario() {
+        
+        const scenarioData = {
+            scenarioName: this.scenarioName,
+            apis: this.apis
+        };
+        console.log(scenarioData);
+        this.apiService.saveScenario(scenarioData).subscribe(response => {
+            console.log('Scenario saved', response);
+        }, error => {
+            console.error('Error saving scenario', error);
+        });
+    }
+
     runTests() {
         const results: ApiResponse[] = [];
         const executeApi = (index: number) => {

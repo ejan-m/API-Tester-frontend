@@ -1,18 +1,21 @@
+// src/app/api.service.ts
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 export class ApiService {
+    private baseUrl = 'http://127.0.0.1:5000';
 
-  private backendUrl = 'http://127.0.0.1:5000/run-tests';  // Flask backend URL
+    constructor(private http: HttpClient) { }
 
-  constructor(private http: HttpClient) { }
+    runTests(apis: any[]): Observable<any> {
+        return this.http.post(`${this.baseUrl}/run-tests`, { apis });
+    }
 
-  runTests(apis: any): Observable<any> {
-    return this.http.post<any>(this.backendUrl, { apis });
-  }
+    saveScenario(scenario: any): Observable<any> {
+        return this.http.post(`${this.baseUrl}/save-scenario`, scenario);
+    }
 }

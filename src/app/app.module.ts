@@ -8,6 +8,7 @@ import { AppComponent } from './app.component';
 import { AddApiFormComponent } from './add-api-form/add-api-form.component';
 import { ApiIntegrationComponent } from './api-integration/api-integration.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { ClipboardModule } from 'ngx-clipboard';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { DashboardComponent } from './dashboard/dashboard.component';
     FormsModule,
     ReactiveFormsModule,
     RouterModule,
-    AppRoutingModule
+    AppRoutingModule,
+    ClipboardModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -17,8 +17,9 @@
                 <app-add-api-form [api]="api" [index]="i" (remove)="removeApi($event)"></app-add-api-form>
             </div>
         </div>
-        <button class="btn btn-primary" (click)="addApi()">Add API</button>
-        <button class="btn btn-success" (click)="runTests()">Run Tests</button>
+        <button class="btn btn-primary mr-2" (click)="addApi()">Add API</button>
+        <button class="btn btn-success mr-2" (click)="runTests()">Run Tests</button>
+        <button class="btn btn-info mr-2" (click)="saveScenario()">Save Scenario</button>
         <div *ngIf="responses.length > 0" class="mt-5">
             <h3>Scenario: {{ scenarioName }}</h3>
             <div *ngFor="let response of responses" class="card mb-3">
